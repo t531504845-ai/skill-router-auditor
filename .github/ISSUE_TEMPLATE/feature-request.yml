@@ -1,0 +1,34 @@
+name: Feature request
+description: Suggest a new audit check, report format, or integration.
+title: "Feature: <short description>"
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What maintenance or routing problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behavior you want.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any simpler workaround or different design?
+    validations:
+      required: false
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example input or output
+      description: Paste a small skill catalog, audit output, or command line example.
+    validations:
+      required: false
+

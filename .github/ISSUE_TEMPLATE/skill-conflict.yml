@@ -1,0 +1,51 @@
+name: Skill routing conflict
+description: Report two or more skills that are hard to distinguish.
+title: "Conflict: <skill-a> vs <skill-b>"
+labels: ["skill-conflict", "triage"]
+body:
+  - type: input
+    id: skill_a
+    attributes:
+      label: First skill
+      description: Name or path of the first skill.
+      placeholder: browser-control
+    validations:
+      required: true
+  - type: input
+    id: skill_b
+    attributes:
+      label: Second skill
+      description: Name or path of the second skill.
+      placeholder: web-search
+    validations:
+      required: true
+  - type: textarea
+    id: user_request
+    attributes:
+      label: User request that routes poorly
+      description: Paste the shortest request that triggers the ambiguity.
+      placeholder: "Open this GitHub issue and summarize the latest comment."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected routing
+      description: Which skill should be selected, and why?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual routing
+      description: What did the agent select, or what did the audit report show?
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Add relevant descriptions, negative triggers, or audit output.
+    validations:
+      required: false
+

@@ -95,6 +95,19 @@ Large skill catalogs fail in quiet ways:
 Skill Router Auditor treats this as an engineering problem. It helps maintainers
 make the catalog easier to search, route, and review.
 
+## Reporting Conflicts
+
+If two skills are hard for an agent to distinguish, open a "Skill routing
+conflict" issue and include:
+
+- The two skill names or paths.
+- The shortest user request that routes poorly.
+- Which skill should have been selected.
+- Any relevant audit output or current descriptions.
+
+That feedback is especially useful because routing quality is easiest to improve
+when ambiguity is captured as a small, repeatable example.
+
 ## Recommended workflow
 
 1. Run the audit on the current skill catalog.
