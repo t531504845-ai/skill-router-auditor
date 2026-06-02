@@ -21,3 +21,11 @@ jobs:
         run: python -m unittest discover -s tests
       - name: Smoke test CLI
         run: skill-router-audit examples/sample-skills --format markdown
+      - name: Run audit gate
+        run: |
+          skill-router-audit examples/sample-skills \
+            --format markdown \
+            --output skill-router-report.md \
+            --policy-output AGENTS.skill-routing.md \
+            --fail-on medium \
+            --max-overlaps 0

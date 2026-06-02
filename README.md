@@ -48,6 +48,17 @@ Generate only the routing policy:
 skill-router-audit path/to/skills --format policy
 ```
 
+Use it as a CI gate:
+
+```bash
+skill-router-audit path/to/skills \
+  --format markdown \
+  --output skill-router-report.md \
+  --policy-output AGENTS.skill-routing.md \
+  --fail-on medium \
+  --max-overlaps 0
+```
+
 ## Example Output
 
 ```text
@@ -92,6 +103,23 @@ make the catalog easier to search, route, and review.
 4. Re-run the audit before adding new skills.
 5. Track overlap scores in CI so new skills do not blur existing boundaries.
 
+## CI Gating
+
+`--fail-on` turns findings into a lint-style gate:
+
+- `--fail-on high` fails on missing descriptions and duplicate skill names.
+- `--fail-on medium` also fails on weak descriptions and missing negative
+  triggers.
+- `--fail-on low` is reserved for future low-severity checks.
+- `--fail-on none` keeps report-only behavior.
+
+`--max-overlaps` limits likely routing conflicts. For mature catalogs, start
+with the current overlap count as a baseline, then lower it as descriptions
+improve.
+
+`--policy-output` writes only the generated routing policy so maintainers can
+commit or review it separately from the full audit report.
+
 ## Roadmap
 
 - Configurable category taxonomy.
@@ -111,4 +139,3 @@ impact honestly.
 ## License
 
 MIT
-
