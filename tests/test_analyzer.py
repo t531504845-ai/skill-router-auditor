@@ -34,6 +34,25 @@ class AnalyzerTest(unittest.TestCase):
 
         self.assertEqual(report.categories["data"], ("spreadsheet-cleanup",))
 
+    def test_overlap_handles_duplicate_skill_names_by_path(self):
+        left = Skill(
+            name="duplicate",
+            description="Use for browser click screenshot and tab inspection tasks.",
+            path=Path("a/SKILL.md"),
+            body="Do not use for static search.",
+        )
+        right = Skill(
+            name="duplicate",
+            description="Use for browser click screenshot and tab inspection tasks.",
+            path=Path("b/SKILL.md"),
+            body="Do not use for static search.",
+        )
+
+        report = analyze((left, right), overlap_threshold=0.9)
+
+        self.assertEqual(len(report.overlaps), 1)
+        self.assertEqual(report.overlaps[0].left, "duplicate")
+
 
 if __name__ == "__main__":
     unittest.main()

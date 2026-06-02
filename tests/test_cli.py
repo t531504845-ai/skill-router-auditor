@@ -94,6 +94,39 @@ Do not use for static search.
             self.assertEqual(exit_code, 0)
             self.assertIn("# Skill Routing Policy", policy.read_text(encoding="utf-8"))
 
+    def test_cli_redacts_input_root_in_json_report(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "browser"
+            skill_dir.mkdir(parents=True)
+            (skill_dir / "SKILL.md").write_text(
+                """---
+name: browser-control
+description: Use for browser click and screenshot tasks.
+---
+
+Do not use for static search.
+""",
+                encoding="utf-8",
+            )
+            output = root / "report.json"
+
+            exit_code = main(
+                [
+                    str(root / "skills"),
+                    "--format",
+                    "json",
+                    "--output",
+                    str(output),
+                    "--redact",
+                ]
+            )
+
+            text = output.read_text(encoding="utf-8")
+            self.assertEqual(exit_code, 0)
+            self.assertIn("<SKILL_ROOT>", text)
+            self.assertNotIn(str(root), text)
+
 
 if __name__ == "__main__":
     unittest.main()

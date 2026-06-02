@@ -7,6 +7,7 @@ from pathlib import Path
 from .analyzer import analyze
 from .models import AuditReport
 from .parser import load_skills
+from .redactor import redact_text
 from .report import render_report
 
 SEVERITY_RANK = {
@@ -60,6 +61,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         help="Exit with code 2 when potential routing conflicts exceed this count.",
     )
+    parser.add_argument(
+        "--redact",
+        action="store_true",
+        help="Redact local paths, emails, and common secret-like values in output.",
+    )
     return parser
 
 
@@ -76,12 +82,17 @@ def main(argv: list[str] | None = None) -> int:
 
     report = analyze(skills, overlap_threshold=args.overlap_threshold)
     output = render_report(report, args.format)
+    policy_output = report.routing_policy + "\n"
+    if args.redact:
+        roots = [args.path]
+        output = redact_text(output, roots=roots)
+        policy_output = redact_text(policy_output, roots=roots)
     if args.output:
         args.output.write_text(output, encoding="utf-8")
     else:
         sys.stdout.write(output)
     if args.policy_output:
-        args.policy_output.write_text(report.routing_policy + "\n", encoding="utf-8")
+        args.policy_output.write_text(policy_output, encoding="utf-8")
 
     failures = evaluate_gates(report, args.fail_on, args.max_overlaps)
     if failures:

@@ -151,14 +151,14 @@ def _find_quality_issues(skills: tuple[Skill, ...]) -> list[Finding]:
 def _find_overlaps(skills: tuple[Skill, ...], threshold: float) -> list[Overlap]:
     overlaps: list[Overlap] = []
     token_sets = {
-        skill.name: tokenize(f"{skill.name} {skill.description} {skill.body[:1000]}")
+        skill.path: tokenize(f"{skill.name} {skill.description} {skill.body[:1000]}")
         for skill in skills
     }
 
     for index, left in enumerate(skills):
         for right in skills[index + 1 :]:
-            left_terms = token_sets[left.name]
-            right_terms = token_sets[right.name]
+            left_terms = token_sets[left.path]
+            right_terms = token_sets[right.path]
             if not left_terms or not right_terms:
                 continue
             shared = left_terms & right_terms
@@ -205,4 +205,3 @@ def _has_negative_guidance(description: str, body: str) -> bool:
 def tokenize(text: str) -> set[str]:
     words = re.findall(r"[a-zA-Z][a-zA-Z0-9_-]{2,}", text.lower())
     return {word for word in words if word not in GENERIC_TERMS}
-

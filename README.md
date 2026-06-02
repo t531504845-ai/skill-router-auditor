@@ -59,6 +59,15 @@ skill-router-audit path/to/skills \
   --max-overlaps 0
 ```
 
+Redact local paths and common secret-like values before sharing a report:
+
+```bash
+skill-router-audit ~/.codex/skills \
+  --format json \
+  --output audit.redacted.json \
+  --redact
+```
+
 ## Example Output
 
 ```text
@@ -80,6 +89,13 @@ Skill Tree
 - developer-tools
   - github-automation
 ```
+
+## Case Study
+
+See [docs/case-study-large-skill-catalog.md](docs/case-study-large-skill-catalog.md)
+for a redacted audit of a 900+ skill catalog. The case study shows why negative
+triggers and boilerplate-aware overlap detection matter once a catalog gets
+large.
 
 ## Why this matters
 
@@ -132,6 +148,12 @@ improve.
 
 `--policy-output` writes only the generated routing policy so maintainers can
 commit or review it separately from the full audit report.
+
+`--redact` is intended for public case studies or issue reports. It replaces the
+input skill root with `<SKILL_ROOT>`, the home directory with `<HOME>`, and masks
+emails, token-like strings, and common secret query parameters. Review generated
+reports before publishing them; redaction is a safety layer, not a substitute for
+maintainer judgment.
 
 ## Roadmap
 
