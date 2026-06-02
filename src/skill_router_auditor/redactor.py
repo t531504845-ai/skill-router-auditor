@@ -31,15 +31,18 @@ def _path_replacements(roots: list[Path]) -> list[tuple[str, str]]:
     replacements: list[tuple[str, str]] = []
     home = Path.home()
     for raw, label in [(home, "<HOME>"), *[(root, "<SKILL_ROOT>") for root in roots]]:
+        raw = raw.expanduser()
+        candidates = [raw]
         try:
-            path = raw.expanduser().resolve()
+            candidates.append(raw.resolve())
         except OSError:
-            path = raw.expanduser()
-        forms = {
-            str(path),
-            str(path).replace("\\", "/"),
-            str(path).replace("\\", "\\\\"),
-        }
-        for form in forms:
-            replacements.append((form, label))
+            pass
+        for path in candidates:
+            forms = {
+                str(path),
+                str(path).replace("\\", "/"),
+                str(path).replace("\\", "\\\\"),
+            }
+            for form in forms:
+                replacements.append((form, label))
     return sorted(replacements, key=lambda item: len(item[0]), reverse=True)
