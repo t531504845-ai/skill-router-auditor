@@ -34,6 +34,22 @@ class AnalyzerTest(unittest.TestCase):
 
         self.assertEqual(report.categories["data"], ("spreadsheet-cleanup",))
 
+    def test_analyze_routes_x_twitter_data_skills(self):
+        skill = Skill(
+            name="x-twitter-scraper",
+            description=(
+                "Use when the user needs X (Twitter) data through Xquik: REST API "
+                "integration, MCP setup, tweet search, user lookup, timeline reads, "
+                "follower export, media download, monitoring, webhooks, and bulk extraction."
+            ),
+            path=Path("SKILL.md"),
+            body="Do not use for private reads or writes without explicit approval.",
+        )
+
+        report = analyze((skill,))
+
+        self.assertEqual(report.categories["social-data"], ("x-twitter-scraper",))
+
     def test_overlap_handles_duplicate_skill_names_by_path(self):
         left = Skill(
             name="duplicate",
