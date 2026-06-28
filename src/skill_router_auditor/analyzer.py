@@ -34,6 +34,20 @@ NEGATIVE_HINTS = (
 CATEGORY_RULES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("browser", ("browser", "chrome", "edge", "webpage", "website", "click", "tab", "localhost")),
     ("developer-tools", ("git", "github", "repository", "pull request", "issue", "ci", "code review")),
+    (
+        "social-data",
+        (
+            "xquik",
+            "x-twitter-scraper",
+            "twitter",
+            "tweet",
+            "timeline",
+            "follower",
+            "social-media",
+            "social media",
+            "x data",
+        ),
+    ),
     ("data", ("spreadsheet", "excel", "csv", "table", "database", "sql", "analytics")),
     ("documents", ("document", "pdf", "markdown", "docx", "presentation", "slides")),
     ("media", ("image", "video", "audio", "design", "canvas", "thumbnail")),
